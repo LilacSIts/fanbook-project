@@ -1,5 +1,21 @@
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv  
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+
+db = client[DB_NAME]
+
+app = Flask(__name__)
+
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.dj3jxz6.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
@@ -31,6 +47,12 @@ def bucket_done():
         {'$set' : {'done' : 1}}
     )
     return jsonify({'msg': 'update done!'})
+
+@app.route("/bucket/delete", methods=["POST"])
+def bucket_delete():
+    numDelete = request.form['num_delete']
+    db.bucket.delete_one({"num" : int(numDelete)})
+    return jsonify({'msg': 'Delete done!'})
 
 @app.route("/bucket", methods=["GET"])
 def bucket_get():
