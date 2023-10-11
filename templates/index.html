@@ -97,6 +97,7 @@
                             temp_html = `
                             <li>
                                 <h2>✅ ${bucket}</h2>
+                                <button onclick="delete_bucket(${num})" type="button" class="btn btn-danger" style="margin-right: 10px">Delete</button>
                                 <button onclick="done_bucket(${num})" type="button" class="btn btn-outline-primary">Done!</button>
                             </li>
                             `;
@@ -104,6 +105,7 @@
                             temp_html = `
                             <li>
                                 <h2 class="done">✅ ${bucket}</h2>
+                                <button onclick="delete_bucket(${num})" type="button" class="btn btn-danger">Delete</button>
                             </li>
                             `;
                         }
